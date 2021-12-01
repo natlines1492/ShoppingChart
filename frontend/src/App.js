@@ -1,16 +1,19 @@
 
+// src/App.js
 
-import Catalog from './components/Catalog';
-import GlobalStyle from './components/GlobalStyle';
-
+import GlobalStyle from "./components/GlobalStyle";
+import Layout from "./components/Layout";
+import Home from "./pages/home";
 
 function App() {
   return (
     <>
-      <GlobalStyle/>
-        <div className="App">
-          <Catalog/>
-        </div>
+      <GlobalStyle />
+      <div className="App">
+        <Layout>
+          <Home/>
+        </Layout>
+      </div>
     </>
   );
 }
