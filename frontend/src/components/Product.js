@@ -51,8 +51,14 @@ const Price = styled.p`
   font-weight: 500;
 `;
 
+const QuantityInCart = styled.p`
+  color: #1BC100;
+  font-size: 14px;
+  font-weight: 700;
+`;
+
 export default function Product(props) {
-  const { image, name, brand, presentation, price } = props;
+  const { image, name, brand, presentation, price, quantityInCart } = props;
 
   return (
     <Container>
@@ -64,6 +70,7 @@ export default function Product(props) {
       <Brand>{brand}</Brand>
       <Presentation>{presentation}</Presentation>
       <Price>${price}</Price>
+      <p>{quantityInCart > 0 && (<QuantityInCart>{quantityInCart} en carrito</QuantityInCart>)}</p>
     </Container>
   );
 }
