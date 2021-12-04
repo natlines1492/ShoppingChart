@@ -16,17 +16,26 @@ function fetcher(...args) {
   return fetch(...args).then((res) => res.json());
 }
 
-//const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
+const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
 
 export default function Catalog() {
 
-  const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
-  const productsResponse = useSWR(getUrl("products"), fetcher);
+  const { data, error } = useSWR(getUrl("products"), fetcher);
 
-  const { data: productsData, error: productsError } = productsResponse;
+  if (error) {
+    return <p>Ups! something happened here.</p>;
+  }
 
-  console.log(productsData);
-  console.log(productsError);
+  if (!data) {
+    return <p>Loading...</p>;
+  }
+  // const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
+  // const productsResponse = useSWR(getUrl("products"), fetcher);
+
+  //const { data: productsData, error: productsError } = productsResponse;
+  // console.log(productsResponse)
+  // console.log(productsData);
+  // console.log(productsError);
   // const cartResponse = useSWR(getUrl("cart"), fetcher);
 
   // const { data: cartData, error: cartError } = cartResponse;
@@ -47,7 +56,7 @@ export default function Catalog() {
 
   return (
     <Container>
-      {productsData.products.map((product) => {
+      {data.products.map((product) => {
         //const itemInCart = itemsByProductId[product.id];
 
         const productProps = { ...product };

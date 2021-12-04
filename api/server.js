@@ -14,8 +14,7 @@ server.use(express.json());
 server.get("/products", async (req, res) => {
   const products = await models.Product.findAll();
 
-  res.setHeader("Access-Control-Allow-Origin", "*");  //cualquier consumidor puede obtener información del api
-  console.log(products);
+  res.setHeader("Access-Control-Allow-Origin", "*");  //cualquier consumidor puede obtener información del api;
   res.json({ products });
 });
 
