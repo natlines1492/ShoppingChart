@@ -18,7 +18,7 @@ export default function Catalog(props) {
   const itemsByProductId = keyBy(cartData.orderItems, "productId");
 
   const onAddProductHandler = async (productId, quantity) => {
-    console.log("onAddProductHandler", productId, quantity);
+    
     await fetch(getApiUrl("cart/upsert"), {
       method: "POST",
       headers: {

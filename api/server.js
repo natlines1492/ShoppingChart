@@ -88,7 +88,12 @@ server.post("/cart/upsert", async (req, res) => {
 
 server.get("/cart", async (req, res) => {
   const order = await models.Order.findOne({
-    include: [models.OrderItem],
+    include: [
+      {
+        model: models.OrderItem,
+        include: [models.Product],
+      },
+    ],
   });
 
   const cleanCart = {
@@ -99,8 +104,14 @@ server.get("/cart", async (req, res) => {
     numberOfProducts: order.OrderItems.length,
     orderItems: order.OrderItems.map(orderItem => {
       return {
+        id: orderItem.id,
         quantity: orderItem.quantity,
-        productId: orderItem.ProductId
+        productId: orderItem.ProductId,
+        productImage: orderItem.Product.image,
+        productName: orderItem.Product.name,
+        productBrand: orderItem.Product.brand,
+        productPresentation: orderItem.Product.presentation,
+        productPrice: orderItem.Product.price,
       }
     })
   };
