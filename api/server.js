@@ -83,6 +83,30 @@ server.post("/cart/upsert", async (req, res) => {
   }
 });
 
+server.get("/cart", async (req, res) => {
+  const order = await models.Order.findOne({
+    include: [models.OrderItem],
+  });
+
+  const cleanCart = {
+    total: order.total,
+    subtotal: order.subtotal,
+    shipping: order.shipping,
+    taxes: order.taxes,
+    numberOfProducts: order.OrderItems.length,
+    orderItems: order.OrderItems.map(orderItem => {
+      return {
+        quantity: orderItem.quantity,
+        productId: orderItem.ProductId
+      }
+    })
+  };
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  return res.json(cleanCart)
+});
+
 server.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
