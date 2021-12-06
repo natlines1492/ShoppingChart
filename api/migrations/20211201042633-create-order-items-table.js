@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      OrderId: {
+      OrderId: { //Relation to Order Model
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -22,7 +22,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      ProductId: {
+      ProductId: { //Relation to Order Model
         type: Sequelize.INTEGER,
         references: {
           model: {

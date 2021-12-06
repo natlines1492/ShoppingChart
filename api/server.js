@@ -18,32 +18,7 @@ server.get("/products", async (req, res) => {
   res.json({ products });
 });
 
-server.get("/cart", async (req, res) => {
-  const order = await models.Order.findOne({
-    include: [models.OrderItem],
-  });
-
-  const cleanCart = {
-    total: order.total,
-    subtotal: order.subtotal,
-    shipping: order.shipping,
-    taxes: order.taxes,
-    numberOfProducts: order.OrderItems.length,
-    orderItems: order.OrderItems.map(orderItem => {
-      return {
-        quantity: orderItem.quantity,
-        productId: orderItem.ProductId
-      }
-    })
-  };
- //cualquier consumidor puede obtener información del api
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  return res.json(cleanCart)
-});
-
-server.post("/cart", async (req, res) => {
-
+server.post("/cart/upsert", async (req, res) => {
   const quantity = req.body.quantity;
 
   const productId = req.body.productId;
@@ -54,6 +29,8 @@ server.post("/cart", async (req, res) => {
     },
   });
 
+  console.log(productDb);
+
   if (!productDb) {
     return res.send("The product does not exist");
   }
@@ -62,13 +39,14 @@ server.post("/cart", async (req, res) => {
     include: [models.OrderItem],
   });
 
-  console.log(order);
-
   const orderItems = order.OrderItems;
 
   const orderItem = orderItems.find((item) => {
     return item.ProductId === productId;
   });
+
+  console.log("Buscando la orden");
+  console.log(order.toJSON());
 
   if (!orderItem) {
     await models.OrderItem.create({
