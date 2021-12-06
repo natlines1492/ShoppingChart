@@ -17,10 +17,11 @@ const ImageBox = styled.div`
   position: relative;
 `;
 
-const Counter = styled.div`
+const Counter = styled.button`
   align-items: center;
   background-color: white;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   height: 56px;
   justify-content: center;
@@ -57,20 +58,37 @@ const QuantityInCart = styled.p`
   font-weight: 700;
 `;
 
+
+
 export default function Product(props) {
-  const { image, name, brand, presentation, price, quantityInCart } = props;
+  const {
+    id,
+    image,
+    name,
+    brand,
+    presentation,
+    price,
+    quantityInCart = 0,
+    onAddProduct,
+  } = props;
 
   return (
     <Container>
       <ImageBox>
         <Image src={image}></Image>
-        <Counter><PlusIcon/></Counter>
+        <Counter onClick={() => onAddProduct(id, quantityInCart  + 1)}>
+          <PlusIcon />
+        </Counter>
       </ImageBox>
-      <Name>{name}</Name>
-      <Brand>{brand}</Brand>
-      <Presentation>{presentation}</Presentation>
-      <Price>${price}</Price>
-      <p>{quantityInCart > 0 && (<QuantityInCart>{quantityInCart} en carrito</QuantityInCart>)}</p>
+      <div>
+        <Name>{name}</Name>
+        <Brand>{brand}</Brand>
+        <Presentation>{presentation}</Presentation>
+        <Price>${price}</Price>
+        {quantityInCart > 0 && (
+          <QuantityInCart>{quantityInCart} in cart</QuantityInCart>
+        )}
+      </div>
     </Container>
   );
 }

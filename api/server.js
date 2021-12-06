@@ -2,8 +2,11 @@
 
 const express = require('express');
 const models = require('./models');
+const cors = require('cors');
 
 const server = express();
+
+server.use(cors()) // enable all cors requests in app
 
 //Para que los datos esten en formato JSON
 
@@ -14,7 +17,7 @@ server.use(express.json());
 server.get("/products", async (req, res) => {
   const products = await models.Product.findAll();
 
-  res.setHeader("Access-Control-Allow-Origin", "*");  //cualquier consumidor puede obtener información del api;
+  //res.setHeader("Access-Control-Allow-Origin", "*");  //cualquier consumidor puede obtener información del api;
   res.json({ products });
 });
 
@@ -102,7 +105,7 @@ server.get("/cart", async (req, res) => {
     })
   };
 
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  //res.setHeader("Access-Control-Allow-Origin", "*");
 
   return res.json(cleanCart)
 });

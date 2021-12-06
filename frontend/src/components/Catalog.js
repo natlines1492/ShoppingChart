@@ -2,8 +2,8 @@
 
 import styled from "styled-components";
 import Product from "./Product";
-import useSWR from "swr";
 import { keyBy } from "lodash";
+import getApiUrl from "../utils/utils";
 
 const Container = styled.div`
   column-gap: 16px;
@@ -12,60 +12,52 @@ const Container = styled.div`
   row-gap: 16px;
 `;
 
-function fetcher(...args) {
-  return fetch(...args).then((res) => res.json());
-}
+export default function Catalog(props) {
+  const { productsData, cartData, cartMutate } = props;
 
-const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
+  const itemsByProductId = keyBy(cartData.orderItems, "productId");
 
-export default function Catalog() {
+  const onAddProductHandler = async (productId, quantity) => {
+    console.log("onAddProductHandler", productId, quantity);
+    await fetch(getApiUrl("cart/upsert"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId, quantity }),
+    });
 
-  const { data, error } = useSWR(getUrl("products"), fetcher);
+    const items = cartData.orderItems.map((item) => {
+      const newItem = { ...item };
 
-  if (error) {
-    return <p>Ups! something happened here.</p>;
-  }
+      if (newItem.productId === productId) {
+        newItem.quantity = quantity;
+      }
 
-  if (!data) {
-    return <p>Loading...</p>;
-  }
-  // const getUrl = (path) => `http://0.0.0.0:3000/${path}`;
-  // const productsResponse = useSWR(getUrl("products"), fetcher);
+      return newItem;
+    });
 
-  //const { data: productsData, error: productsError } = productsResponse;
-  // console.log(productsResponse)
-  // console.log(productsData);
-  // console.log(productsError);
-  // const cartResponse = useSWR(getUrl("cart"), fetcher);
-
-  // const { data: cartData, error: cartError } = cartResponse;
-
-  // if (productsError || cartError) {
-  //   console.log(cartError)
-  //   return <p>Ups! something happened here.</p>;
-  // }
-
-  // if (!productsData || !cartData) {
-  //   console.log(productsData)
-  //   console.log(cartData)
-  //   return <p>Loading...</p>;
-  // }
-
-  //const itemsByProductId = keyBy(cartData.orderItems, "productId");
-
+    cartMutate({ ...cartData, orderItems: items });
+  };
 
   return (
     <Container>
-      {data.products.map((product) => {
-        //const itemInCart = itemsByProductId[product.id];
+      {productsData.products.map((product) => {
+        const itemInCart = itemsByProductId[product.id];
 
         const productProps = { ...product };
 
-        // if (itemInCart) {
-        //   productProps.quantityInCart = itemInCart.quantity;
-        // }
+        if (itemInCart) {
+          productProps.quantityInCart = itemInCart.quantity;
+        }
 
-        return <Product key={product.id} {...productProps} />;
+        return (
+          <Product
+            key={product.id}
+            {...productProps}
+            onAddProduct={onAddProductHandler}
+          />
+        );
       })}
     </Container>
   );
