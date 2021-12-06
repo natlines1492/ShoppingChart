@@ -4,6 +4,7 @@ import useSWR from "swr";
 import Catalog from "../components/Catalog";
 import CartIcon from "../components/CartIcon";
 import getApiUrl from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 
 const Container = styled.div`
@@ -18,10 +19,11 @@ const Title = styled.h1`
   margin-bottom: 32px;
 `;
 
-const CartButton = styled.div`
+const CartButton = styled.button`
   align-items: center;
   background-color: black;
   border-radius: 32px;
+  cursor: pointer;
   display: flex;
   height: 48px;
   justify-content: space-between;
@@ -35,12 +37,19 @@ const Quantity = styled.span`
   font-size: 24px;
   font-weight: 500;
   margin-left: 12px;
-`
+`;
+
 function fetcher(...args) {
   return fetch(...args).then((res) => res.json());
 }
 
 export default function Home() {
+
+  const navigate = useNavigate();
+
+  const onCartClickHandler = () => {
+    navigate("/cart")
+  };
 
   const productsResponse = useSWR(getApiUrl("products"), fetcher);
 
@@ -66,7 +75,7 @@ export default function Home() {
         cartData={cartData}
         productsData={productsData}
       />
-      <CartButton>
+      <CartButton onClick={onCartClickHandler}>
         <CartIcon />
         <Quantity>{cartData.orderItems.length}</Quantity>
       </CartButton>
