@@ -7,6 +7,8 @@ import getApiUrl from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import BackIcon from "../components/BackIcon";
 import OrderItem from "../components/OrderItem";
+import PriceLine from "../components/PriceLine";
+import Button from "../components/Button";
 
 const Container = styled.div`
   column-gap: 160px;
@@ -20,6 +22,20 @@ const CartItems = styled.div`
 
 const PricingDetails = styled.div`
   height: 300px;
+  ${PriceLine}:last-of-type {
+    padding-top: 24px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    > span {
+      font-weight: 600;
+    }
+  }
+`;
+
+const CompleteOrderButton = styled(Button)`
+  justify-content: center;
+  margin-top: 24px;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -28,6 +44,7 @@ const Title = styled.h1`
   margin-bottom: 32px;
   display: flex;
   align-items: center;
+
   ${BackIcon} {
     margin-right: 16px;
     cursor: pointer;
@@ -103,12 +120,21 @@ export default function Home() {
               quantity={item.quantity}
               productId={item.productId}
               onQuantityChange={onQuantityChangeHandler}
+              onRemove={onQuantityChangeHandler}
             />
           );
         })}
       </CartItems>
       <PricingDetails>
         <Title>Summary</Title>
+        <PriceLine label="Subtotal" price={cartData.subtotal} />
+        <PriceLine
+          label="Estimated Shipping & Handling"
+          price={cartData.shipping}
+        />
+        <PriceLine label="Estimated Tax" price={cartData.taxes} />
+        <PriceLine label="Total" price={cartData.total} />
+        <CompleteOrderButton>COMPLETE ORDER</CompleteOrderButton>
       </PricingDetails>
     </Container>
   );
