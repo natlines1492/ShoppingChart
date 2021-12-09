@@ -3,7 +3,10 @@ import styled from "styled-components";
 import PlusIcon from "./PlusIcon";
 
 const Container = styled.div`
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
   max-width: 360px;
+  padding: 5px;
   > :not(:last-child) {
     margin-bottom: 4px;
   }
@@ -19,7 +22,7 @@ const ImageBox = styled.div`
 
 const Counter = styled.button`
   align-items: center;
-  background-color: white;
+  background-color: #77de9e;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -33,6 +36,7 @@ const Counter = styled.button`
 
 const Image = styled.img`
   width: 100%;
+  height: 300px;
 `;
 
 const Name = styled.p`
@@ -53,10 +57,15 @@ const Price = styled.p`
 `;
 
 const QuantityInCart = styled.p`
-  color: #1BC100;
+  color: #25d366;
   font-size: 14px;
   font-weight: 700;
 `;
+
+const Body = styled.div`
+  line-height: 1.5;
+`
+
 
 
 
@@ -80,15 +89,15 @@ export default function Product(props) {
           <PlusIcon />
         </Counter>
       </ImageBox>
-      <div>
+      <Body>
         <Name>{name}</Name>
-        <Brand>{brand}</Brand>
+        <Brand>{`Marca: ${brand}`}</Brand>
         <Presentation>{presentation}</Presentation>
-        <Price>${price}</Price>
+        <Price>${parseFloat(price).toFixed(2)}</Price>
         {quantityInCart > 0 && (
           <QuantityInCart>{quantityInCart} in cart</QuantityInCart>
         )}
-      </div>
+      </Body>
     </Container>
   );
 }

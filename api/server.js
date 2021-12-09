@@ -127,6 +127,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const randomize = require("randomatic");
 const models = require("./models");
 
 const server = express();
@@ -223,6 +224,7 @@ server.get("/cart", async (req, res) => {
 
   const cleanCart = {
     total: order.total,
+    code: order.code,
     subtotal: order.subtotal,
     shipping: order.shipping,
     taxes: order.taxes,
@@ -242,6 +244,14 @@ server.get("/cart", async (req, res) => {
   };
 
   return res.json(cleanCart);
+});
+
+server.post("/order/confirm", async (req, res) => {
+  const cart = await models.Order.findOne();
+
+  await cart.update({ code: randomize("A", 5) });
+
+  return res.json({ confirmed: true });
 });
 
 server.listen(3000, () => {

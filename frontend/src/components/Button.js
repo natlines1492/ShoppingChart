@@ -5,7 +5,7 @@ export default styled.button`
   align-items: center;
   color: white;
   font-weight: 600;
-  background-color: black;
+  background-color: #444;
   border-radius: 32px;
   cursor: pointer;
   display: flex;

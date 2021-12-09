@@ -63,6 +63,18 @@ export default function Home() {
     navigate("/");
   };
 
+  const onCompleteOrderButtonClickHandler = async () => {
+    await fetch(getApiUrl("order/confirm"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    navigate("/thanks");
+  };
+
+
   const onQuantityChangeHandler = async (productId, quantity) => {
     await fetch(getApiUrl("cart"), {
       method: "POST",
@@ -105,7 +117,7 @@ export default function Home() {
     <Container>
       <CartItems>
         <Title>
-          <BackIcon onClick={onBackClickHandler} />
+          <BackIcon onClick={onBackClickHandler}/>
           Your Cart
         </Title>
         {cartData.orderItems.map((item) => {
@@ -134,7 +146,8 @@ export default function Home() {
         />
         <PriceLine label="Estimated Tax" price={cartData.taxes} />
         <PriceLine label="Total" price={cartData.total} />
-        <CompleteOrderButton>COMPLETE ORDER</CompleteOrderButton>
+        <CompleteOrderButton onClick={onCompleteOrderButtonClickHandler}
+        >COMPLETE ORDER</CompleteOrderButton>
       </PricingDetails>
     </Container>
   );
