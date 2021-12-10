@@ -45,7 +45,7 @@ const Presentation = styled.p`
 
 const Input = styled.input`
   border: 1px solid #ccc;
-  color: #000;
+  color: #444;
   font-size: 16px;
   height: 46px;
   text-align: center;

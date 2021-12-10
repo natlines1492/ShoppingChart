@@ -5,6 +5,7 @@ import Catalog from "../components/Catalog";
 import CartIcon from "../components/CartIcon";
 import getApiUrl from "../utils/utils";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 
 const Container = styled.div`
@@ -19,19 +20,12 @@ const Title = styled.h1`
   margin-bottom: 32px;
 `;
 
-const CartButton = styled.button`
-  align-items: center;
-  background-color: black;
-  border-radius: 32px;
-  cursor: pointer;
-  display: flex;
-  height: 48px;
-  justify-content: space-between;
-  padding: 0 24px;
+const CartButton = styled(Button)`
   position: absolute;
   right: 0;
   top: 0;
-`
+`;
+
 const Quantity = styled.span`
   color: white;
   font-size: 24px;
@@ -69,7 +63,7 @@ export default function Home() {
 
   return (
     <Container>
-      <Title>My Store</Title>
+      <Title>Find your favorite natural products here!</Title>
       <Catalog
         cartMutate={cartMutate}
         cartData={cartData}

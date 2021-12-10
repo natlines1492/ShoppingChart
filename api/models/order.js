@@ -7,6 +7,7 @@ const Order = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      code: Sequelize.STRING,
       total: Sequelize.DECIMAL(11, 2),
       subtotal: Sequelize.DECIMAL(11, 2),
       shipping: Sequelize.DECIMAL(11, 2),

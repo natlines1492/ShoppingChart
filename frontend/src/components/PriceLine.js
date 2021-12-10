@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 const Label = styled.span`
-  color: #000;
+  color: #444;
   font-weight: 400;
 `;
 

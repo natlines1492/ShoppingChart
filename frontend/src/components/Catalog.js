@@ -6,10 +6,10 @@ import { keyBy } from "lodash";
 import getApiUrl from "../utils/utils";
 
 const Container = styled.div`
-  column-gap: 16px;
+  column-gap: 25px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  row-gap: 16px;
+  row-gap: 25px;
 `;
 
 export default function Catalog(props) {
@@ -19,7 +19,7 @@ export default function Catalog(props) {
 
   const onAddProductHandler = async (productId, quantity) => {
     
-    await fetch(getApiUrl("cart/upsert"), {
+    await fetch(getApiUrl("cart"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
